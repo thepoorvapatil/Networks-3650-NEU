@@ -20,10 +20,10 @@ fib:
     enter $0, $0
 
     cmp $0, %rdi
-    je fib_0
+    je fib0
 
     cmp $1, %rdi
-    je fib_1
+    je fib1
 
     push %r12
     push %r13

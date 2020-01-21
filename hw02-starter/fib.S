@@ -12,7 +12,7 @@ long fib(long x){
 
     //variable mapping
         x= %r12
-        final result return = %r13
+        final result return = %r13 = %rax
 
 */
 
@@ -69,7 +69,7 @@ main(int argc, char* argv[])
 {
     if (argc != 2 || atol(argv[1]) < 0) {
         printf("Usage:\n  %s N, where N > 0\n", argv[0]);
-        return 0;
+        return 1;
     }
 
     printf("fib(%ld) = %ld", atol(argv[1]), fib(atol(argv[1])));
@@ -112,7 +112,6 @@ error:
 main_end:
     leave
     ret
-
 
 .data
 error_msg: .string "Usage:\n  %s N, where N > 0"

@@ -44,16 +44,16 @@ main:
     mov 16(%rsi), %rax
     mov %rax, %al
 
-    cmp  "+", %al
+    cmpb  $'+, %al
     je test_correct
 
-    cmp "-", %al
+    cmpb $'-, %al
     je test_correct
 
-    cmp "*", %al
+    cmpb $'*, %al
     je test_correct
 
-    cmp "/", %al
+    cmpb $'/, %al
     je test_correct
 
     #mov %r9, %rdi

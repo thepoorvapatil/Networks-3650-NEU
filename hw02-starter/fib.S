@@ -10,9 +10,8 @@ long fib(long x){
     return fib(x - 1) + fib(x-2);
 }
 
-    //variable mapping
-        x= %r12
-        final result return = %r13 = %rax
+x= %r12
+final result return = %r13 = %rax
 
 */
 
@@ -90,8 +89,6 @@ main:
     jl error
 
     mov %rax, %r12
-
-
     mov %r12, %rdi
     call fib
 

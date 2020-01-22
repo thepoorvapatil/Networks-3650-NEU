@@ -4,7 +4,7 @@
 
 int main(int argc, char const *argv[])
 {
-    if(argc != 4 || (strncmp(argv[2], "+", 8) && strncmp(argv[2], "-", 8) && strncmp(argv[2], "*", 8) && strncmp(argv[2], "/", 8) ) ){
+    if(argc != 4 || (argv[2][0]== "+" && strncmp(argv[2], "-", 8) && strncmp(argv[2], "*", 8) && strncmp(argv[2], "/", 8) ) ){
         puts("Usage:\n./ccalc N op N");
         return 1;
     }

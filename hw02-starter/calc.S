@@ -3,8 +3,8 @@
     argc= %rdi
     argv= %rsi
     n1= %r13
-    operator: %r12
-    n2: %r10
+    operator= %r12
+    n2= %r10
 */
 
 .global main

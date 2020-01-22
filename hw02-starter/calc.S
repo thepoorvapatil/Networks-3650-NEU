@@ -94,4 +94,4 @@ main_done:
 
 .data
     error_msg: .string "Usage:\n./acalc N op N"
-    result: .string "%d %d %d = %d\n"
+    result: .string "%d %s %d = %d\n"

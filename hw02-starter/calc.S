@@ -82,9 +82,9 @@ division:
 
 print_output:
     mov $result, %rdi
-    mov $0, %rsi
-    mov $1, %rdx
-    mov $0, %rcx 
+    mov $r13, %rsi
+    mov 16(%r12), %rdx
+    mov %r14, %rcx 
     mov $0, %al
     call printf
 

@@ -1,5 +1,3 @@
-
-
 .global main
 .text
 
@@ -12,14 +10,14 @@ main:
         return 1;
     }
     */
-
     /*
     argc= %rdi
     argv= %rsi
     xx= %r13
-    operator= %r14
+    argv[2]= %r14
     yy= %r15
-*/
+    */
+
     cmp $4, %rdi
     jne error
 
@@ -54,7 +52,7 @@ error:
     mov $error_msg, %rdi
     call puts
     mov $1, %rax
-    jmp main_done
+    jmp main_end
 
 addition:
     mov %r15, %rax
@@ -89,7 +87,7 @@ print_output:
     mov $0, %al
     call printf
 
-main_done:
+main_end:
     leave
     ret
 

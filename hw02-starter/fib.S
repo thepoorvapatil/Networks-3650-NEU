@@ -87,7 +87,7 @@ main:
     call atol
     cmp $0, %rax
     jl error
-
+    
     mov %rax, %r12
     mov %r12, %rdi
     call fib

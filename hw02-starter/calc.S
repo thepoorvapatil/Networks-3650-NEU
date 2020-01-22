@@ -1,29 +1,4 @@
 /*
-int main(int argc, char const *argv[])
-{
-    if(argc != 4 || (strncmp(argv[2], "+", 8) && strncmp(argv[2], "-", 8) && strncmp(argv[2], "*", 8) && strncmp(argv[2], "/", 8) ) ){
-        puts("Usage:\n./ccalc N op N");
-        return 1;
-    }
-
-    int x = atoi(argv[1]);
-    int y = atoi(argv[3]);
-    char * fmt = "%d %s %d = %d\n";
-
-    if(!strncmp(argv[2], "+", 8))
-        printf(fmt, x, argv[2], y, x + y);
-
-    if(!strncmp(argv[2], "-", 8))
-        printf(fmt, x, argv[2], y, x - y);
-    
-    if(!strncmp(argv[2], "*", 8))
-        printf(fmt, x, argv[2], y, x * y);
-    
-    if(!strncmp(argv[2], "/", 8))
-        printf(fmt, x, argv[2], y, x / y);
-
-    return 0;
-}
 
     argc= %rdi
     argv= %rsi
@@ -38,53 +13,75 @@ int main(int argc, char const *argv[])
 main:
     enter $0, $0
 
+    /*
+    if(argc != 4 || (strncmp(argv[2], "+", 8) && strncmp(argv[2], "-", 8) && strncmp(argv[2], "*", 8) && strncmp(argv[2], "/", 8)) ){
+        puts("Usage:\n./ccalc N op N");
+        return 1;
+    }
+    */
     cmp $4, %rdi
-    jne usage_err
+    jne error
 
-    mov 16(%rsi), %rax
-    mov %rax, %al
+    mov %rsi, %r12
+
+    //int x = atoi(argv[1]);
+    mov 8(%r12), %rdi
+    call atoi
+    mov %rax, %r13
+
+    //int y = atoi(argv[3]);
+    mov 24(%r12), %rdi
+    call atoi
+    mov %rax, %r14
+
+    mov 16(%r12), %rax
+    mov (%rax), %al
 
     cmpb  $'+, %al
-    je test_correct
+    je addition
 
     cmpb $'-, %al
-    je test_correct
+    je subtraction
 
     cmpb $'*, %al
-    je test_correct
+    je multiplication
 
     cmpb $'/, %al
-    je test_correct
+    je division
 
-    #mov %r9, %rdi
-    #call puts
-    #jmp main_done
-
-usage_err:
-    mov $usage_err_msg, %rdi
+error:
+    mov $error_msg, %rdi
     call puts
     mov $1, %rax
     jmp main_done
 
-test_correct:
-    mov $test, %rdi
-    call puts
-    jmp main_done
-
-add:
+addition:
+    mov %r14, %rax
+    add %r13, %rax
+    mov %rax, %r8   
     jmp print_output
 
-sub:
+subtraction:
+    mov %r13, %rax
+    sub %r14, %rax
+    mov %rax, %r8
     jmp print_output
 
-mul:
+multiplication:
+    mov %r14, %rax
+    imul %r13, %rax
+    mov %rax, %r8
     jmp print_output
 
-div:
+division:
+    mov %r13, %rax
+    cqo
+    idiv %r14
+    mov %rax, %r8
     jmp print_output
 
 print_output:
-    mov $fmt, %rdi
+    mov $result, %rdi
     mov $0, %rsi
     mov $1, %rdx
     mov $0, %rcx 
@@ -96,11 +93,5 @@ main_done:
     ret
 
 .data
-    usage_err_msg: .string "Usage:\n./acalc N op N"
-    fmt: .string "%d %d %d = %d\n"
-    test: .string "Jump correct"
-    test_fmt: .string "%d"
-    plus: .string "+"
-    minus: .string "-"
-    asterisk: .string "*"
-    forward_slash: .string "/"
+    error_msg: .string "Usage:\n./acalc N op N"
+    result: .string "%d %d %d = %d\n"

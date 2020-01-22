@@ -1,11 +1,4 @@
-/*
 
-    argc= %rdi
-    argv= %rsi
-    n1= %r13
-    operator= %r12
-    n2= %r10
-*/
 
 .global main
 .text
@@ -19,22 +12,30 @@ main:
         return 1;
     }
     */
+
+    /*
+    argc= %rdi
+    argv= %rsi
+    xx= %r13
+    operator= %r14
+    yy= %r15
+*/
     cmp $4, %rdi
     jne error
 
-    mov %rsi, %r12
+    mov %rsi, %r14
 
-    //int x = atoi(argv[1]);
-    mov 8(%r12), %rdi
+    //int xx = atoi(argv[1]);
+    mov 8(%r14), %rdi
     call atoi
     mov %rax, %r13
 
-    //int y = atoi(argv[3]);
-    mov 24(%r12), %rdi
+    //int yy = atoi(argv[3]);
+    mov 24(%r14), %rdi
     call atoi
-    mov %rax, %r14
+    mov %rax, %r15
 
-    mov 16(%r12), %rax
+    mov 16(%r14), %rax
     mov (%rax), %al
 
     cmpb  $'+, %al
@@ -56,19 +57,19 @@ error:
     jmp main_done
 
 addition:
-    mov %r14, %rax
+    mov %r15, %rax
     add %r13, %rax
     mov %rax, %r8   
     jmp print_output
 
 subtraction:
     mov %r13, %rax
-    sub %r14, %rax
+    sub %r15, %rax
     mov %rax, %r8
     jmp print_output
 
 multiplication:
-    mov %r14, %rax
+    mov %r15, %rax
     imul %r13, %rax
     mov %rax, %r8
     jmp print_output
@@ -76,15 +77,15 @@ multiplication:
 division:
     mov %r13, %rax
     cqo
-    idiv %r14
+    idiv %r15
     mov %rax, %r8
     jmp print_output
 
 print_output:
     mov $result, %rdi
     mov %r13, %rsi
-    mov 16(%r12), %rdx
-    mov %r14, %rcx 
+    mov 16(%r14), %rdx
+    mov %r15, %rcx 
     mov $0, %al
     call printf
 

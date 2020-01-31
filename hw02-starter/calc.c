@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 int main(int argc, char const *argv[])
 {
     if(argc != 4 || (strncmp(argv[2], "+", 8) && strncmp(argv[2], "-", 8) && strncmp(argv[2], "*", 8) && strncmp(argv[2], "/", 8)) ){
